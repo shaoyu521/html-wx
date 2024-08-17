@@ -88,62 +88,70 @@
             color: #f00;
         }
         .qr-code-container {
-    display: flex;
-    align-items: center;
-}
+            display: flex;
+            align-items: center;
+        }
 
-.qr-code {
-    font-size: 24px;
-    margin-right: 5px; /* 控制二维码图标与箭头之间的间距 */
-}
+        .qr-code {
+            font-size: 24px;
+            margin-right: 5px; /* 控制二维码图标与箭头之间的间距 */
+        }
 
-.arrow {
-    font-size: 18px;
-    color: #ccc; /* 设置箭头颜色 */
-}.iUp.up {
-    opacity: 1;
-    -webkit-transform: translate3d(0, 0, 0);
-    -moz-transform: translate3d(0, 0, 0);
-    -ms-transform: translate3d(0, 0, 0);
-    -o-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-}
-.panel-cover__divider {
-    width: 50%;
-    margin: 20px auto;
-    border-top: 1px solid rgba(255, 255, 255, 0.14);
-}
-.iUp {
-    opacity: 0;
-    -webkit-transform: translate3d(0, 80px, 0);
-    -moz-transform: translate3d(0, 80px, 0);
-    -ms-transform: translate3d(0, 80px, 0);
-    -o-transform: translate3d(0, 80px, 0);
-    transform: translate3d(0, 80px, 0);
-    -webkit-transition: all 2s cubic-bezier(0.19,1,0.22,1);
-    -moz-transition: all 2s cubic-bezier(0.19, 1, 0.22, 1);
-    transition: all 2s cubic-bezier(0.19,1,0.22,1);
-}
-hr {
-    border: 0;
-} 
+        .arrow {
+            font-size: 18px;
+            color: #ccc; /* 设置箭头颜色 */
+        }
+
+        .iUp.up {
+            opacity: 1;
+            -webkit-transform: translate3d(0, 0, 0);
+            -moz-transform: translate3d(0, 0, 0);
+            -ms-transform: translate3d(0, 0, 0);
+            -o-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+        }
+
+        .panel-cover__divider {
+            width: 50%;
+            margin: 20px auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .iUp {
+            opacity: 0;
+            -webkit-transform: translate3d(0, 80px, 0);
+            -moz-transform: translate3d(0, 80px, 0);
+            -ms-transform: translate3d(0, 80px, 0);
+            -o-transform: translate3d(0, 80px, 0);
+            transform: translate3d(0, 80px, 0);
+            -webkit-transition: all 2s cubic-bezier(0.19,1,0.22,1);
+            -moz-transition: all 2s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: all 2s cubic-bezier(0.19,1,0.22,1);
+        }
+
+        hr {
+            border: 0;
+        }
     </style>
 </head>
 
 <body>
-    <div class="header"><video autoplay muted loop>
+    <div class="header">
+        <video autoplay muted loop>
             <source src="your-video-url.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="profile">
             <div class="avatar"></div>
             <div class="info">
-                <div class="name">Seven.</div>
-                <div class="wechat-id">微信号：          </div>
+                <div class="name" id="name">Seven.</div>
+                <div class="wechat-id" id="wechatid">微信号：</div>
             </div>
-            <div class="qr-code-container"><i class="qr-code iconfont icon-erweima"></i><!-- 二维码图标 --></div>
-
-        </div><hr class="panel-cover__divider iUp up">
+            <div class="qr-code-container">
+                <i class="qr-code iconfont icon-erweima"></i><!-- 二维码图标 -->
+            </div>
+        </div>
+        <hr class="panel-cover__divider iUp up">
         <div class="quote" id="hitokoto_text"></div>
         <div class="status">
             <i class="iconfont icon-manglu"></i><!-- 忙碌状态图标 --><span>忙</span>
@@ -151,13 +159,23 @@ hr {
     </div>
 
     <br><br><br>
+    <p>背景图</p>
     <input type="file" id="fileInput" class="upload-btn" accept="image/*">
+    <p>头像</p>
     <input type="file" id="avatarInput" class="avatar-upload-btn" accept="image/*">
+    <div class="input-group">
+        <input type="text" id="nameInput" class="form-control" placeholder="新昵称">
+        <button class="btn btn-primary update-btn" onclick="updatename()">更新昵称</button>
+    </div>
     <div class="input-group">
         <input type="text" id="quoteInput" class="form-control" placeholder="新文案">
         <button class="btn btn-primary update-btn" onclick="updateQuote()">更新文案</button>
     </div>
+    <div class="input-group">
+        <input type="text" id="wechatidInput" class="form-control" value="微信号：">
+        <button class="btn btn-primary update-btn" onclick="updatewechatid()">更新微信号</button>
     </div>
+
     <script>
         document.getElementById('fileInput').addEventListener('change', function(event) {
             const file = event.target.files[0];
@@ -181,20 +199,32 @@ hr {
             }
         });
 
+        function updatename() {
+            const nameInput = document.getElementById('nameInput');
+            const nameText = document.querySelector('#name');
+            nameText.innerText = nameInput.value;
+        }
+
         function updateQuote() {
             const quoteInput = document.getElementById('quoteInput');
             const quoteText = document.querySelector('#hitokoto_text');
             quoteText.innerText = quoteInput.value;
         }
 
+        function updatewechatid() {
+            const wechatidInput = document.getElementById('wechatidInput');
+            const wechatidText = document.querySelector('#wechatid');
+            wechatidText.innerText = wechatidInput.value;
+        }
+
         fetch('https://v1.hitokoto.cn/?c=j')
-          .then(response => response.json())
-          .then(data => {
-            const hitokoto = document.querySelector('#hitokoto_text');
-            hitokoto.href = `https://hitokoto.cn/?uuid=${data.uuid}`;
-            hitokoto.innerText = data.hitokoto;
-          })
-          .catch(console.error);
+            .then(response => response.json())
+            .then(data => {
+                const hitokoto = document.querySelector('#hitokoto_text');
+                hitokoto.href = `https://hitokoto.cn/?uuid=${data.uuid}`;
+                hitokoto.innerText = data.hitokoto;
+            })
+            .catch(console.error);
     </script>
 </body>
 
