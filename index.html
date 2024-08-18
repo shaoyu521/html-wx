@@ -20,6 +20,13 @@
             background-color: #f7f7f7;
         }
 
+        /* 背景模糊效果 */
+        .header {
+            position: relative;
+            overflow: hidden;
+            /* 确保背景不会超出 header */
+        }
+
         .header {
             position: relative;
             background: url('https://imgapi.cn/api.php?fl=fengjing&gs=images&zd=pc') no-repeat center center;
@@ -116,9 +123,10 @@
         }
 
         .panel-cover__divider {
-            width: 90%;
+            width: 98%;
             margin: 20px auto;
-            border-top: 1px solid rgba(255, 255, 255, 0.14);
+            border-top: 1px solid #f2f0f061;
+            ;
         }
 
         .iUp {
@@ -137,35 +145,34 @@
             border: 0;
         }
 
-        /* 背景模糊效果 */
-.header {
-    position: relative;
-    overflow: hidden; /* 确保背景不会超出 header */
-}
+        /* 背景图层 */
+        .background-blur {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            /* 背景在内容下层 */
+            transition: filter 0.5s ease;
+            /* 过渡效果 */
+            background-image: url('https://imgapi.cn/api.php?fl=fengjing&gs=images&zd=pc');
+            /* 确保背景图像已加载 */
+        }
 
-/* 背景图层 */
-.background-blur {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    filter: blur(8px); /* 默认模糊效果 */
-    z-index: -1; /* 背景在内容下层 */
-}
+        /* 开关控制模糊效果 */
+        .blur-background {
+            filter: blur(8px);
+            /* 默认模糊效果 */
+        }
 
-/* 前景内容 */
-.content {
-    position: relative; /* 确保前景内容在背景上 */
-    z-index: 1;
-}
-
-/* 开关控制模糊效果 */
-.blur-background {
-    filter: blur(8px);
-}
+        /* 前景内容 */
+        .content {
+            position: relative;
+            /* 确保前景内容在背景上 */
+            z-index: 1;
+        }
     </style>
 </head>
 
@@ -186,7 +193,7 @@
             <hr class="panel-cover__divider iUp up">
             <div class="quote"><strong id="hitokoto_text"></strong></div>
             <div class="status">
-                <i class="iconfont icon-manglu"></i><span>忙</span>
+                <i class="iconfont icon-manglu"></i><span><b></b>  忙</span>
             </div>
         </div>
     </div>
@@ -267,7 +274,11 @@
         document.getElementById('cropButton').addEventListener('click', function () {
             const canvas = cropper.getCroppedCanvas();
             const croppedImageDataURL = canvas.toDataURL('image/jpeg');
+
+            // 更新背景图像
             document.querySelector('.header').style.backgroundImage = `url(${croppedImageDataURL})`;
+            document.querySelector('.background-blur').style.backgroundImage = `url(${croppedImageDataURL})`;
+
             document.getElementById('cropContainer').style.display = 'none';
             cropper.destroy();
         });
